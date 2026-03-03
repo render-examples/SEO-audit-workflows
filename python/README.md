@@ -47,9 +47,9 @@ Workflows are created via the Render Dashboard (not render.yaml during early acc
 1. Connect your repository containing this code
 1. Configure:
    - **Name**: `seo-audit-workflow`
-   - **Root Directory**: `python/workflow`
-   - **Build Command**: `cd .. && pip install -r requirements.txt`
-   - **Start Command**: `render-workflows main:app`
+   - **Root Directory**: `python`
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `render-workflows workflows.main:app`
 1. Deploy the workflow
 
 ### 2. Deploy the API service
@@ -113,10 +113,10 @@ See the [main README](../README.md#3-deploy-the-frontend) for frontend deploymen
 1. Start the local task server (in one terminal):
 
    ```sh
-   render workflows dev -- render-workflows workflow.main:app
+   render workflows dev -- render-workflows workflows.main:app
    ```
 
-   The `render-workflows` CLI discovers tasks from the `app` instance in `workflow/main.py`.
+   The `render-workflows` CLI discovers tasks from the `app` instance in `workflows/main.py`.
 
 1. Run the API service (in another terminal):
 
@@ -131,7 +131,7 @@ For more details, see the [Workflows local development guide](https://render.com
 ## Project structure
 
 ```
-├── workflow/
+├── workflows/
 │   ├── main.py           # Workflow task definitions
 │   └── analyzers.py      # SEO analysis functions
 ├── api/

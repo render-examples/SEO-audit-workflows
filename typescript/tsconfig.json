@@ -15,6 +15,6 @@
     "declarationMap": true,
     "sourceMap": true
   },
-  "include": ["workflow/**/*", "api/**/*", "shared/**/*", "types/**/*"],
+  "include": ["workflows/**/*", "api/**/*", "shared/**/*", "types/**/*"],
   "exclude": ["node_modules", "dist"]
 }

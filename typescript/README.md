@@ -48,9 +48,9 @@ Workflows are created via the Render Dashboard (not render.yaml during early acc
 1. Connect your repository containing this code
 1. Configure:
    - **Name**: `seo-audit-workflow-ts`
-   - **Root Directory**: `typescript/workflow`
-   - **Build Command**: `cd .. && npm install && npm run build`
-   - **Start Command**: `node ../dist/workflow/index.js`
+   - **Root Directory**: `typescript`
+   - **Build Command**: `npm install && npm run build`
+   - **Start Command**: `node dist/workflows/index.js`
 1. Deploy the workflow
 
 ### 2. Deploy the API service
@@ -106,7 +106,7 @@ See the [main README](../README.md#3-deploy-the-frontend) for frontend deploymen
 1. Start the local task server (in one terminal):
 
    ```sh
-   render workflows dev -- node dist/workflow/index.js
+   render workflows dev -- node dist/workflows/index.js
    ```
 
 1. Run the API service (in another terminal):
@@ -120,7 +120,7 @@ For more details, see the [Workflows local development guide](https://render.com
 ## Project structure
 
 ```
-├── workflow/
+├── workflows/
 │   ├── index.ts          # Workflow task definitions
 │   └── analyzers.ts      # SEO analysis functions
 ├── api/

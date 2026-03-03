@@ -43,11 +43,11 @@ This demo consists of three services:
 │   └── render.yaml     # Blueprint for static site
 ├── python/             # Python implementation
 │   ├── api/            # Flask API
-│   ├── workflow/       # Workflow tasks
+│   ├── workflows/      # Workflow tasks
 │   └── render.yaml     # Blueprint for API service
 └── typescript/         # TypeScript implementation
     ├── api/            # Express API
-    ├── workflow/       # Workflow tasks
+    ├── workflows/      # Workflow tasks
     └── render.yaml     # Blueprint for API service
 ```
 
@@ -64,7 +64,7 @@ Workflows are created via the Render Dashboard (not render.yaml):
 1. Connect your repository
 1. Configure:
    - **Name**: `seo-audit-workflow` (this becomes your workflow slug)
-   - **Root Directory**: `python/workflow` or `typescript/workflow`
+   - **Root Directory**: `python` or `typescript`
    - **Build Command**: See language-specific README
    - **Start Command**: See language-specific README
 1. Deploy the workflow
