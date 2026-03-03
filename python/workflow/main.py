@@ -190,3 +190,7 @@ async def analyze_page(page_url: str) -> dict[str, Any]:
         "load_time_ms": load_time,
         "content_length": content_length,
     }
+
+
+if __name__ == "__main__":
+    app.start()
