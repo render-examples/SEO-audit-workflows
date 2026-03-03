@@ -17,7 +17,7 @@ Enter a URL and the app crawls your site, spawning parallel analysis tasks acros
 │   API Service   │         │          Workflow Service            │
 │   (Express)     │         │                                      │
 │                 │         │                                      │
-│  Frontend ────────────────▶ audit_site task                     │
+│  Frontend ────────────────▶ audit_site task                      │
 │                 │  SDK    │      │                               │
 │  Results    ◀─────────────│      ▼                               │
 │                 │         │  crawl_pages task                    │
@@ -73,7 +73,7 @@ Or deploy manually:
    - **Name**: `seo-audit-api-ts`
    - **Runtime**: Node
    - **Build Command**: `npm install && npm run build`
-   - **Start Command**: `npm run start:api`
+   - **Start Command**: `node dist/api/index.js`
 1. Add the environment variables listed above
 
 ### 3. Deploy the frontend
@@ -88,21 +88,34 @@ See the [main README](../README.md#3-deploy-the-frontend) for frontend deploymen
    npm install
    ```
 
+1. Build the project:
+
+   ```sh
+   npm run build
+   ```
+
 1. Set environment variables:
 
    ```sh
    export RENDER_API_KEY=your-api-key
+   export RENDER_USE_LOCAL_DEV=true
    export WORKFLOW_SLUG=seo-audit-workflow-ts
    export WORKFLOW_ID=wfl-xxxxx
    ```
 
-1. Run the API service in development mode:
+1. Start the local task server (in one terminal):
 
    ```sh
-   npm run dev:api
+   render workflows dev -- node dist/workflow/index.js
    ```
 
-For local workflow development, see the [Workflows local development guide](https://render.com/docs/workflows-local-development).
+1. Run the API service (in another terminal):
+
+   ```sh
+   npm run dev
+   ```
+
+For more details, see the [Workflows local development guide](https://render.com/docs/workflows-local-development).
 
 ## Project structure
 

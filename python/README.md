@@ -16,7 +16,7 @@ Enter a URL and the app crawls your site, spawning parallel analysis tasks acros
 ┌─────────────────┐         ┌──────────────────────────────────────┐
 │   API Service   │         │          Workflow Service            │
 │                 │         │                                      │
-│  HTML Form ───────────────▶ audit_site task                     │
+│  HTML Form ───────────────▶ audit_site task                      │
 │                 │  SDK    │      │                               │
 │  Results UI ◀─────────────│      ▼                               │
 │                 │         │  crawl_pages task                    │
@@ -47,9 +47,9 @@ Workflows are created via the Render Dashboard (not render.yaml during early acc
 1. Connect your repository containing this code
 1. Configure:
    - **Name**: `seo-audit-workflow`
-   - **Root Directory**: `workflow`
-   - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `python3 main.py`
+   - **Root Directory**: `python/workflow`
+   - **Build Command**: `cd .. && pip install -r requirements.txt`
+   - **Start Command**: `render-workflows main:app`
 1. Deploy the workflow
 
 ### 2. Deploy the API service
@@ -113,8 +113,10 @@ See the [main README](../README.md#3-deploy-the-frontend) for frontend deploymen
 1. Start the local task server (in one terminal):
 
    ```sh
-   render ea tasks dev -- python3 workflow/main.py
+   render workflows dev -- render-workflows workflow.main:app
    ```
+
+   The `render-workflows` CLI discovers tasks from the `app` instance in `workflow/main.py`.
 
 1. Run the API service (in another terminal):
 
