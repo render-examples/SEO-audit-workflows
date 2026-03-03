@@ -11,7 +11,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@renderinc/sdk": "^0.5.0",
+    "@renderinc/sdk": "latest",
     "cheerio": "^1.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
