@@ -151,7 +151,7 @@ export function AuditForm({
 
           {disabled ? (
             <div className="flex-1 bg-neutral-800 text-neutral-300 px-6 py-3 font-medium uppercase tracking-wider text-sm flex items-center justify-center gap-2">
-              <span className="inline-block w-4 h-4 border-2 border-neutral-500 border-t-white rounded-full animate-spin" style={{ aspectRatio: '1/1' }} />
+              <span className="inline-block w-4 h-4 shrink-0 aspect-square border-2 border-neutral-500 border-t-white rounded-full animate-spin" />
               {CYCLING_MESSAGES[messageIndex]}
             </div>
           ) : (
