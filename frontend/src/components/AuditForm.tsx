@@ -168,11 +168,18 @@ export function AuditForm({
             </button>
           )}
         </div>
-        <p className="text-[10px] text-neutral-600">
-          {DEMO_MODE
-            ? `* Demo mode: limited to ${AUDIT_CAPS.MAX_PAGES} pages and ${AUDIT_CAPS.MAX_CONCURRENCY} concurrent tasks.`
-            : '* Plan limits apply to concurrent tasks: Hobby 5, Pro 25, Org 100 (may change after beta).'}
-        </p>
+        {DEMO_MODE ? (
+          <div className="text-xs text-neutral-400 space-y-1 mt-1">
+            <p>This demo is capped at {AUDIT_CAPS.MAX_PAGES} pages and {AUDIT_CAPS.MAX_CONCURRENCY} concurrent tasks.</p>
+            <p className="text-neutral-500">
+              * Plan limits for concurrent tasks: Hobby 5, Pro 25, Org 100 (may change after beta).
+            </p>
+          </div>
+        ) : (
+          <p className="text-xs text-neutral-500 mt-1">
+            * Plan limits for concurrent tasks: Hobby 5, Pro 25, Org 100 (may change after beta).
+          </p>
+        )}
       </div>
     </form>
   )

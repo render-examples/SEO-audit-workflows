@@ -18,8 +18,6 @@ services:
           name: seo-audit-api
           type: web
           property: host
-      - key: VITE_DEMO_MODE
-        value: ""  # Set to "true" to enable demo mode UI constraints
       - key: NODE_VERSION
         value: "22"
     routes:
@@ -42,10 +40,6 @@ services:
         sync: false
       - key: WORKFLOW_ID
         sync: false
-      - key: DEMO_MODE
-        value: ""  # Set to "true" to enable demo mode rate/concurrency limits
-      - key: FRONTEND_URL
-        value: ""  # Set to frontend URL for origin validation in demo mode
       - key: NODE_VERSION
         value: "22"
 
@@ -66,9 +60,5 @@ services:
   #       sync: false # Set to your workflow slug (name) from the Dashboard
   #     - key: WORKFLOW_ID
   #       sync: false
-  #     - key: DEMO_MODE
-  #       value: ""
-  #     - key: FRONTEND_URL
-  #       value: ""
   #     - key: PYTHON_VERSION
   #       value: "3.12"

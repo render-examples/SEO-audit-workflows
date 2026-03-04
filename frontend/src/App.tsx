@@ -146,22 +146,21 @@ function App() {
             >
               Render Workflows
             </a>
-            {DEMO_MODE && (
-              <>
-                {" · "}
-                <span className="text-neutral-600">demo instance</span>
-                {" — "}
-                <a
-                  href={REPO_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-(--accent) hover:underline"
-                >
-                  deploy your own
-                </a>
-              </>
-            )}
           </p>
+          {DEMO_MODE && (
+            <p className="text-neutral-600 text-xs mt-1">
+              Public demo —{" "}
+              <a
+                href={REPO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-(--accent) hover:underline"
+              >
+                deploy your own
+              </a>
+              {" "}for full control.
+            </p>
+          )}
         </header>
 
         {/* Form - always visible, disabled when running/completed or workflow not ready */}
