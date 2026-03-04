@@ -3,7 +3,7 @@ import { startAudit as apiStartAudit, checkStatus, getAuditStatus } from "./api"
 import { AuditForm } from "./components/AuditForm";
 import { Results } from "./components/Results";
 import { WorkflowPage } from "./components/WorkflowPage";
-import { AUDIT_DEFAULTS } from "./constants";
+import { AUDIT_DEFAULTS, DEMO_MODE, REPO_URL } from "./constants";
 import type { AuditResult, AuditStatus } from "./types";
 
 type AppView = "audit" | "workflow";
@@ -146,6 +146,21 @@ function App() {
             >
               Render Workflows
             </a>
+            {DEMO_MODE && (
+              <>
+                {" · "}
+                <span className="text-neutral-600">demo instance</span>
+                {" — "}
+                <a
+                  href={REPO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-(--accent) hover:underline"
+                >
+                  deploy your own
+                </a>
+              </>
+            )}
           </p>
         </header>
 
@@ -169,13 +184,25 @@ function App() {
           <div className="border border-red-500 p-6 mb-8">
             <div className="text-red-500 text-sm mb-4">ERROR</div>
             <p className="mb-6">{error}</p>
-            <button
-              type="button"
-              onClick={reset}
-              className="border border-white px-4 py-2 text-sm hover:bg-white hover:text-black transition-colors"
-            >
-              TRY AGAIN
-            </button>
+            <div className="flex gap-3 items-center">
+              <button
+                type="button"
+                onClick={reset}
+                className="border border-white px-4 py-2 text-sm hover:bg-white hover:text-black transition-colors"
+              >
+                TRY AGAIN
+              </button>
+              {DEMO_MODE && error && /demo|limit/i.test(error) && (
+                <a
+                  href={REPO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-(--accent) hover:underline"
+                >
+                  Deploy your own instance
+                </a>
+              )}
+            </div>
           </div>
         )}
 

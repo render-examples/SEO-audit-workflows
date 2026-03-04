@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { AUDIT_DEFAULTS } from '../constants'
+import { AUDIT_CAPS, AUDIT_DEFAULTS, DEMO_MODE } from '../constants'
 
 const CYCLING_MESSAGES = [
   'Crawling pages...',
@@ -113,13 +113,12 @@ export function AuditForm({
               id="max-pages"
               type="number"
               value={maxPages}
-              onChange={(e) =>
-                setMaxPages(
-                  parseInt(e.target.value, 10) || AUDIT_DEFAULTS.MAX_PAGES,
-                )
-              }
+              onChange={(e) => {
+                const v = parseInt(e.target.value, 10) || AUDIT_DEFAULTS.MAX_PAGES
+                setMaxPages(Math.min(v, AUDIT_CAPS.MAX_PAGES))
+              }}
               min={1}
-              max={100}
+              max={AUDIT_CAPS.MAX_PAGES}
               disabled={disabled}
               className={`w-full bg-black border border-neutral-700 px-4 py-3 text-white focus:border-white focus:outline-none transition-colors ${disabledClasses}`}
             />
@@ -139,14 +138,12 @@ export function AuditForm({
               id="max-concurrency"
               type="number"
               value={maxConcurrency}
-              onChange={(e) =>
-                setMaxConcurrency(
-                  parseInt(e.target.value, 10) ||
-                    AUDIT_DEFAULTS.MAX_CONCURRENCY,
-                )
-              }
+              onChange={(e) => {
+                const v = parseInt(e.target.value, 10) || AUDIT_DEFAULTS.MAX_CONCURRENCY
+                setMaxConcurrency(Math.min(v, AUDIT_CAPS.MAX_CONCURRENCY))
+              }}
               min={1}
-              max={50}
+              max={AUDIT_CAPS.MAX_CONCURRENCY}
               disabled={disabled}
               className={`w-full bg-black border border-neutral-700 px-4 py-3 text-white focus:border-white focus:outline-none transition-colors ${disabledClasses}`}
             />
@@ -172,8 +169,9 @@ export function AuditForm({
           )}
         </div>
         <p className="text-[10px] text-neutral-600">
-          * Plan limits apply to concurrent tasks: Hobby 5, Pro 25, Org 100 (may
-          change after beta).
+          {DEMO_MODE
+            ? `* Demo mode: limited to ${AUDIT_CAPS.MAX_PAGES} pages and ${AUDIT_CAPS.MAX_CONCURRENCY} concurrent tasks.`
+            : '* Plan limits apply to concurrent tasks: Hobby 5, Pro 25, Org 100 (may change after beta).'}
         </p>
       </div>
     </form>

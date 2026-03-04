@@ -8,7 +8,7 @@ from typing import Any, Dict
 import httpx
 from flask import jsonify, request
 
-from config import RENDER_API_BASE_URL
+from config import LIMITS, RENDER_API_BASE_URL
 from shared.url_validator import validate_url
 from utils import fetch_task_status, get_render_client, run_async, to_sdk_error_response
 
@@ -17,8 +17,8 @@ def start_audit():
     """POST /audit - Start a new SEO audit task."""
     data = request.get_json() or {}
     url = data.get("url")
-    max_pages = data.get("max_pages", 25)
-    max_concurrency = data.get("max_concurrency", 10)
+    max_pages = min(data.get("max_pages", 25), LIMITS["MAX_PAGES"])
+    max_concurrency = min(data.get("max_concurrency", 10), LIMITS["MAX_CONCURRENCY"])
 
     if not url:
         return jsonify({"error": "URL is required"}), 400
@@ -45,6 +45,9 @@ def start_audit():
 
         task_run, result = run_async(run_task_and_wait())
 
+        from app import track_audit_start
+        track_audit_start(task_run.id)
+
         return jsonify({
             "task_run_id": task_run.id,
             "status": result.status,
@@ -60,6 +63,12 @@ def get_audit_status(task_run_id: str):
     try:
         client = get_render_client()
         response = run_async(fetch_task_status(client, task_run_id))
+
+        from app import track_audit_end
+        task_status = response.get("status", "")
+        if task_status in ("completed", "failed"):
+            track_audit_end(task_run_id)
+
         return jsonify(response)
     except Exception as e:
         status, message = to_sdk_error_response(e)

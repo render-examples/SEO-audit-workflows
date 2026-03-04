@@ -5,7 +5,8 @@
 import type { Request, Response } from "express";
 import { AuditRequestSchema, validateRequest } from "../shared/schemas.js";
 import { validateUrl } from "../shared/urlValidator.js";
-import { RENDER_API_BASE_URL, RENDER_API_KEY, WORKFLOW_ID, WORKFLOW_SLUG } from "./config.js";
+import { LIMITS, RENDER_API_BASE_URL, RENDER_API_KEY, WORKFLOW_ID, WORKFLOW_SLUG } from "./config.js";
+import { trackAuditEnd, trackAuditStart } from "./demoTracker.js";
 import { fetchSpawnedTasks, getRenderClient, toSdkErrorResponse } from "./utils.js";
 
 /** POST /audit - Start a new SEO audit task */
@@ -14,11 +15,9 @@ export async function startAuditHandler(req: Request, res: Response): Promise<Re
   if (!validation.success) {
     return res.status(400).json({ error: validation.error });
   }
-  const {
-    url,
-    max_pages: maxPages,
-    max_concurrency: maxConcurrency,
-  } = validation.data;
+  const { url } = validation.data;
+  const maxPages = Math.min(validation.data.max_pages, LIMITS.MAX_PAGES);
+  const maxConcurrency = Math.min(validation.data.max_concurrency, LIMITS.MAX_CONCURRENCY);
 
   const urlValidation = validateUrl(url);
   if (!urlValidation.valid || !urlValidation.normalizedUrl) {
@@ -41,7 +40,8 @@ export async function startAuditHandler(req: Request, res: Response): Promise<Re
       [validatedUrl, maxPages, maxConcurrency]
     );
 
-    console.log(`Started audit task: ${taskRun.id}`);
+    console.log(`Started audit task: ${taskRun.id} (pages=${maxPages}, concurrency=${maxConcurrency})`);
+    trackAuditStart(taskRun.id);
 
     return res.json({
       task_run_id: taskRun.id,
@@ -70,6 +70,10 @@ export async function getAuditStatusHandler(req: Request, res: Response): Promis
       tasks: await fetchSpawnedTasks(taskRunId),
       results: undefined as unknown,
     };
+
+    if (taskRun.status === "completed" || taskRun.status === "failed") {
+      trackAuditEnd(taskRunId);
+    }
 
     if (taskRun.status === "completed") {
       responseData.results = taskRun.results;
