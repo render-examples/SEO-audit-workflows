@@ -10,7 +10,7 @@
   --success: #00ff88;
 }
 
-* {
+*:not(.animate-spin) {
   border-radius: 0 !important;
 }
 
