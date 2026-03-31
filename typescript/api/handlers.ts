@@ -35,18 +35,17 @@ export async function startAuditHandler(req: Request, res: Response): Promise<Re
 
   try {
     const render = getRenderClient();
-    const taskRun = await render.workflows.runTask(
+    const taskRun = await render.workflows.startTask(
       `${WORKFLOW_SLUG}/audit_site`,
       [validatedUrl, maxPages, maxConcurrency]
     );
 
-    console.log(`Started audit task: ${taskRun.id} (pages=${maxPages}, concurrency=${maxConcurrency})`);
-    trackAuditStart(taskRun.id);
+    console.log(`Started audit task: ${taskRun.taskRunId} (pages=${maxPages}, concurrency=${maxConcurrency})`);
+    trackAuditStart(taskRun.taskRunId);
 
     return res.json({
-      task_run_id: taskRun.id,
-      status: taskRun.status,
-      results: taskRun.results,
+      task_run_id: taskRun.taskRunId,
+      status: "running",
     });
   } catch (error) {
     console.error("Error starting audit:", error);
